@@ -17,3 +17,6 @@ for imagen in imagenes:
     cv.waitKey()
 
 
+
+
+
