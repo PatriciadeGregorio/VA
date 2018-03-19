@@ -18,13 +18,13 @@ for i in range(48):
                    table_number = 6, # 12
                    key_size = 12,     # 20
                   multi_probe_level = 1) #2
-    search_params = dict(checks=50) # or pass empty dictionary
+    search_params = dict(checks=10000) # or pass empty dictionary
     flann = cv.FlannBasedMatcher(index_params, search_params)
 
 d = Detector(orb, flann, imagenes)
 flann = d.training(imagenes)
 for z in range(33):
-    z = z + 1;
+    z = z + 1
     imgTest = cv.imread("../testing/test" + str(z) + formato, 0)
     pos_coche = d.test(imgTest=imgTest)
     for x in range(imgTest.shape[0]):

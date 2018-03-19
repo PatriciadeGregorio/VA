@@ -28,7 +28,7 @@ class Detector:
         tuplaKD = zip(kpsTest, desTest)
         matrizVotacion = np.zeros((np.int(imgTest.shape[0] / self.__DIVISION_MATRIZ), np.int(imgTest.shape[1] / self.__DIVISION_MATRIZ)), dtype=int)
         for t in tuplaKD:
-            listaParecidos = self.__flann.knnMatch(t[1], k=5)
+            listaParecidos = self.__flann.knnMatch(t[1], k=3)
             for parecido in listaParecidos:
                 for p in parecido:
                     vector_votacion = self.__get_vector_votacion(self.keyPoints[p.imgIdx][p.trainIdx], t[0], p.imgIdx)
