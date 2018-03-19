@@ -17,8 +17,6 @@ def face_detect(img):
         listFaces.append((x, y, w, h))
     return listFaces
 
-
-imagenes = []
 rutaTesting = "testing/test"
 formato = ".jpg"
 for i in range(33):
