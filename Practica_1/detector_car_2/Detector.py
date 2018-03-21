@@ -32,6 +32,6 @@ class DetectorCascade:
     def show_faces(self, imgTest):
         listFaces = self.__get_faces()
         for face in listFaces[0]:
-            cv.rectangle(imgTest, (face[0], face[1]), (face[0] + face[2], face[1] + face[3]), (255, 0, 0), 2)
+            cv.rectangle(imgTest, (face[0], face[1]), (face[0] + face[2], face[1] + face[3]), (0, 255, 0), 2)
         for face in listFaces[1]:
             cv.rectangle(imgTest, (face[0], face[1]), (face[0] + face[2], face[1] + face[3]), (255, 0, 0), 2)

@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from Practica_1.detector_car.Detector import Detector
+from detector_car.Detector import Detector
 
 imagenes = []
 rutaTraining = "../training/frontal_"
