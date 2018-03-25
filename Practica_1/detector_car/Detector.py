@@ -75,15 +75,14 @@ class Detector:
 
 
         listV = list(vector_v)
-        listV[0] = np.int((listV[0] / kpParecido.size) * kp.size)
-        listV[1] = np.int((listV[1] / kpParecido.size) * kp.size)
+        listV[0] = (listV[0] / kpParecido.size * kp.size)
+        listV[1] = (listV[1] / kpParecido.size * kp.size)
 
         modulo = np.sqrt(listV[0]**2 + listV[1]**2)
-        if (listV[0] != 0):
-            anguloCentro = np.arctan(listV[1] / listV[0])
-            anguloCentro = (anguloCentro - math.radians(kpParecido.angle)) + math.radians(kp.angle)
-            listV[0] = modulo * np.cos(anguloCentro)
-            listV[1] = modulo * np.sin(anguloCentro)
+        anguloCentro = np.arctan2(listV[1], listV[0])
+        anguloCentro = (anguloCentro - math.radians(kpParecido.angle)) + math.radians(kp.angle)
+        listV[0] = modulo * np.cos(anguloCentro)
+        listV[1] = modulo * np.sin(anguloCentro)
         vector_v = tuple(listV)
 
         vectorColocado = np.int((kp.pt[0] + vector_v[0]) / self.__DIVISION_MATRIZ), np.int(
