@@ -63,9 +63,7 @@ class Detector:
         """
         img = self.__imagenes[imgIdx]
         dimensiones = img.shape
-        centro = (dimensiones[0] / 2, dimensiones[1] / 2)
-
-
+        centro = (dimensiones[1] / 2, dimensiones[0] / 2)
         vector_v = (centro[0] - kpParecido.pt[0], centro[1] - kpParecido.pt[1])
 
 
