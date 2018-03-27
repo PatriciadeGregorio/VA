@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from detector_car.Detector import Detector
+from Practica_1.detector_car.Detector import Detector
 
 imagenes = []
 rutaTraining = "../training/frontal_"
@@ -32,10 +32,10 @@ for z in range(33):
     print("El coche esta en la coordenada: ", (pos_coche[0] * 10, pos_coche[1] * 10))
     for x in range(imgTest.shape[0]):
         for y in range(imgTest.shape[1]):
-            imgTest[pos_coche[1] * 10][y] = 0
-            imgTest[pos_coche[1] * 10 - 10][y] = 0
-            imgTest[x][pos_coche[0] * 10] = 0
-            imgTest[x][pos_coche[0] * 10 - 10] = 0
+            imgTest[pos_coche[1]*10][y] = 0
+            imgTest[pos_coche[1]*10 - 10][y] = 0
+            imgTest[x][pos_coche[0]*10] = 0
+            imgTest[x][pos_coche[0]*10 - 10] = 0
 
     cv.imshow("Coche: " + str(z), imgTest)
     cv.waitKey()
