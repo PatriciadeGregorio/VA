@@ -13,7 +13,7 @@ for i in range(59):
     imagenes.append(m)
 
 #Keypoint
-orb = cv.ORB_create(nfeatures=300, nlevels=5, scaleFactor=1.2)
+orb = cv.ORB_create(nfeatures=300, nlevels=5, scaleFactor=1.08)
 # FLANN parameters
 FLANN_INDEX_LSH = 6
 index_params = dict(algorithm = FLANN_INDEX_LSH,
