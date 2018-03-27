@@ -30,6 +30,7 @@ class Detector:
             self.descriptorsKP.append(des)
             self.keyPoints.append(kps)
         self.__flann.add(self.descriptorsKP)
+        return self.__flann
 
     def test(self, imgTest):
         """
@@ -43,16 +44,14 @@ class Detector:
         tuplaKD = zip(kpsTest, desTest)
         matrizVotacion = np.zeros((np.int(imgTest.shape[0] / self.__DIVISION_MATRIZ), np.int(imgTest.shape[1] / self.__DIVISION_MATRIZ)), dtype=int)
         for t in tuplaKD:
-            listaParecidos = self.__flann.knnMatch(t[1], k=3)
+            listaParecidos = self.__flann.knnMatch(t[1], k=6)
             for parecido in listaParecidos:
                 for p in parecido:
                     vector_votacion = self.__get_vector_votacion(self.keyPoints[p.imgIdx][p.trainIdx], self.descriptorsKP[p.imgIdx][p.trainIdx], t[0], t[1], p.imgIdx)
-                    if (vector_votacion[0] >= 0) & (vector_votacion[1] >= 0) & (
-                            vector_votacion[0] < (imgTest.shape[0] / self.__DIVISION_MATRIZ) - 1) & (
-                            vector_votacion[1] < (imgTest.shape[1] / self.__DIVISION_MATRIZ) - 1):
+                    if (vector_votacion[0] >= 0) & (vector_votacion[1] >= 0) & (vector_votacion[0] < (imgTest.shape[0] / self.__DIVISION_MATRIZ) - 1) & (vector_votacion[1] < ((imgTest.shape[1] / self.__DIVISION_MATRIZ) - 1)):
                         matrizVotacion[vector_votacion[0], vector_votacion[1]] += 1
         pos_coche = np.unravel_index(matrizVotacion.argmax(), matrizVotacion.shape)
-        return pos_coche
+        return pos_coche, matrizVotacion
 
     def __get_vector_votacion(self, kpParecido, desParecido, kp, des, imgIdx):
         """
@@ -65,10 +64,6 @@ class Detector:
         img = self.__imagenes[imgIdx]
         dimensiones = img.shape
         centro = (dimensiones[0] / 2, dimensiones[1] / 2)
-        # listKpParecido = list(kpParecido.pt)
-        # listKpParecido[0] = listKpParecido[0] * (kp.size / 2) / (kpParecido.size / 2)
-        # listKpParecido[1] = listKpParecido[1] * (kp.size / 2) / (kpParecido.size / 2)
-        # kpParecido.pt = tuple(listKpParecido)
 
 
         vector_v = (centro[0] - kpParecido.pt[0], centro[1] - kpParecido.pt[1])
