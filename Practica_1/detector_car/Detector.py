@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 import math
-""" Clase Detector. Clase utilidad que proporciona una serie de metodos para comprobar donde se encuentra un objeto. Las imagenes proporcionadas
+""" Clase Detector. Clase utilidad que proporciona una serie de metodos para comprobar donde se encuentra un objeto. Las imagenes proporcionadas (entrenamiento)
  tienen que tener objetos centrados."""
 class Detector:
     __orb = None
@@ -10,6 +10,16 @@ class Detector:
     __DIVISION_MATRIZ = 10
     descriptorsKP = []
     keyPoints = []
+
+    def __init__(self):
+        self.__orb = cv.ORB_create(nfeatures=300, nlevels=5, scaleFactor=1.2)
+        FLANN_INDEX_LSH = 6
+        index_params = dict(algorithm=FLANN_INDEX_LSH,
+                            table_number=6,  # 12
+                            key_size=12,  # 20
+                            multi_probe_level=1)  # 2
+        search_params = dict(checks=50)  # or pass empty dictionary
+        self.__flann = cv.FlannBasedMatcher(index_params, search_params)
 
 
     def __init__(self, orb, flann, imagenes):
@@ -22,6 +32,7 @@ class Detector:
         training(imagenes) -> FlannBasedMatcher object
         . @brief Metodo que, dado un array de imagenes, se encarga de entrenar al sistema.
         . @param imagenes Array de imagenes para entrenar al sistema
+        . @param
         """
         for imagen in imagenes:
             kps = self.__orb.detect(imagen, None)
@@ -47,13 +58,15 @@ class Detector:
             listaParecidos = self.__flann.knnMatch(t[1], k=6)
             for parecido in listaParecidos:
                 for p in parecido:
-                    vector_votacion = self.__get_vector_votacion(self.keyPoints[p.imgIdx][p.trainIdx], self.descriptorsKP[p.imgIdx][p.trainIdx], t[0], t[1], p.imgIdx)
-                    if (vector_votacion[0] >= 0) & (vector_votacion[1] >= 0) & (vector_votacion[0] < (imgTest.shape[0] / self.__DIVISION_MATRIZ) - 1) & (vector_votacion[1] < ((imgTest.shape[1] / self.__DIVISION_MATRIZ) - 1)):
+                    vector_votacion = self.__get_vector_votacion(self.keyPoints[p.imgIdx][p.trainIdx], t[0], p.imgIdx)
+                    if  (vector_votacion[0] >= 0) & (vector_votacion[1] >= 0) & \
+                        (vector_votacion[0] < (imgTest.shape[0] / self.__DIVISION_MATRIZ) - 1) & \
+                        (vector_votacion[1] < ((imgTest.shape[1] / self.__DIVISION_MATRIZ) - 1)):
                         matrizVotacion[vector_votacion[0], vector_votacion[1]] += 1
         pos_coche = np.unravel_index(matrizVotacion.argmax(), matrizVotacion.shape)
         return pos_coche, matrizVotacion
 
-    def __get_vector_votacion(self, kpParecido, desParecido, kp, des, imgIdx):
+    def __get_vector_votacion(self, kpParecido, kp, imgIdx):
         """
         __get_vector_votacion(kpParecido, kp, imgIdx) -> vectorVotacion
         . @brief Funcion privada encargada de devolver el vector encargado de votar en la matriz de votacion (imagen destino)
