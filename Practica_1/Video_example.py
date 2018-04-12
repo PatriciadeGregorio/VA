@@ -17,7 +17,7 @@ while(True):
     #Lo pasamos a escalas de grises
     gray = cv.cvtColor(frame, cv.COLOR_RGB2GRAY)
     #Obtenemos las caras de las matriculas
-    faces_matricula = face_cascade_matricula.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=6, minSize=(30, 30),
+        faces_matricula = face_cascade_matricula.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=6, minSize=(30, 30),
     flags=cv.CASCADE_SCALE_IMAGE)
     faces_coches = face_cascade_coche.detectMultiScale(gray, scaleFactor=1.05, minNeighbors=6, minSize=(30, 30),
     flags=cv.CASCADE_SCALE_IMAGE)
