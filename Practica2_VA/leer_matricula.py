@@ -4,6 +4,7 @@ import os
 import matplotlib.pyplot as plt
 listFiles = os.listdir("testing_ocr")
 face_cascade_matriculas = cv.CascadeClassifier('matriculas.xml')
+listaDigitos = []
 for file in listFiles:
     img = cv.imread("testing_ocr/" + file, 0)
     imgRGB = cv.imread("testing_ocr/" + file)
@@ -21,14 +22,27 @@ for file in listFiles:
     for face in listFacesMatricula:
         imgCropped = img[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
         imgCroppedThreshold = cv.adaptiveThreshold(imgCropped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
-        im2, contours, hierarchy = cv.findContours(imgCroppedThreshold, cv.RETR_LIST, cv.CHAIN_APPROX_NONE)
+        kernel = np.zeros((5, 5), np.uint8)
+        imgCroppedThreshold = cv.dilate(imgCroppedThreshold, kernel, iterations=20)
+        im2, contours, hierarchy = cv.findContours(imgCroppedThreshold, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
         for cnt in contours:
             x, y, w, h = cv.boundingRect(cnt)
-            if ((h >= 25) & (h <= 30)) & ((w >= 15) & (w <= 25)):
-                cv.rectangle(imgCropped, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                # cv.imshow(file, imgCropped)
-                # cv.waitKey()
-                plt.imshow(imgCropped)
-                plt.show()
+
+            if ((h >= 15) & (h <= 30)) & ((w >= 5) & (w <= 25)):
+                digito = np.zeros((200, 200), dtype=int)
+                digito = imgCroppedThreshold[y:y + h, x:x + w]
+                listaDigitos.append(digito)
+
+        # print("-----------------")
+        # plt.imshow(imgCropped)
+        # plt.show()
 
 
+i = 0
+for d in listaDigitos:
+    i = i + 1
+
+    print(cv.countNonZero(d))
+
+    cv.imshow(str(i), d)
+    cv.waitKey()
