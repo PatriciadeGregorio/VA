@@ -22,17 +22,16 @@ class LicensePlateCleaner:
         img = cv.GaussianBlur(img, self.__kernel, 0)
         ret3, img = cv.threshold(img, threshold_value, self.__white_value, cv.THRESH_BINARY)
         img = cv.bitwise_not(img)
+        # cv.imshow("Imagen final", img)
+        # cv.waitKey()
         return img
 
     def __reduce_colors(self, img, n):
         Z = img.reshape((-1, 3))
-        # convert to np.float32
         Z = np.float32(Z)
-        # define criteria, number of clusters(K) and apply kmeans()
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         K = n
         ret, label, center = cv.kmeans(Z, K, None, criteria, 10, cv.KMEANS_RANDOM_CENTERS)
-        # Now convert back into uint8, and make original image
         center = np.uint8(center)
         res = center[label.flatten()]
         res2 = res.reshape((img.shape))
@@ -43,7 +42,7 @@ class LicensePlateCleaner:
         resize = cv.resize(digito, (5, 10), interpolation=cv.INTER_LINEAR)
         return resize
 
-    def obtener_num_matriculas(self, coche, hay_intento):
+    def obtener_num_matriculas(self, coche):
         face_cascade_matriculas = cv.CascadeClassifier('matriculas.xml')
         resultado = []
         i = 0
@@ -62,6 +61,7 @@ class LicensePlateCleaner:
         for face in listFacesMatricula:
             imgCropped = coche[face[1]:face[1] + face[3], face[0]:face[0] + face[2]]
             imgCleaned = self.__clean_img(imgCropped, 127)
+
             contours = cv.findContours(imgCleaned, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)[1]
             centros_largos.append((face[0]/2, face[1]/2, w))
             for cnt in contours:
@@ -74,43 +74,34 @@ class LicensePlateCleaner:
                     listaDigitos.append((digito, x))
             num_digitos = len(listaDigitos)
             threshold_value = 90
-
-            if (hay_intento):
-                num_intentos = 50
-                while (num_digitos <= 5) & (num_intentos < 50):
-                    imgCleaned = self.__clean_img(imgCropped, threshold_value)
-                    contours = cv.findContours(imgCleaned, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)[1]
-                    listaDigitos = []
-                    for cnt in contours:
-                        x, y, w, h = cv.boundingRect(cnt)
-                        if ((h >= self.__h_min) & (h <= self.__h_max)) & ((w >= self.__w_min) & (w <= self.__w_max)):
-                            digito = imgCleaned[y:y + h, x:x + w]
-                            digito = self.__tratamiento_digito_1(digito)
-                            # plt.imshow(digito)
-                            # plt.show()
-                            digito = digito.flatten()
-                            listaDigitos.append((digito, x))
-                    num_digitos = len(listaDigitos)
-                    if (num_digitos <= 4):
+            num_intentos = 0
+            t = 1
+            while (num_digitos <= 5) & (num_intentos < 150):
+                if (threshold_value > 255):
+                    break
+                imgCleaned = self.__clean_img(imgCropped, threshold_value)
+                contours = cv.findContours(imgCleaned, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)[1]
+                listaDigitos = []
+                for cnt in contours:
+                    x, y, w, h = cv.boundingRect(cnt)
+                    if ((h >= self.__h_min) & (h <= self.__h_max)) & ((w >= self.__w_min) & (w <= self.__w_max)):
+                        digito = imgCleaned[y:y + h, x:x + w]
+                        digito = self.__tratamiento_digito_1(digito)
+                        # plt.imshow(digito)
+                        # plt.show()
+                        digito = digito.flatten()
+                        listaDigitos.append((digito, x))
+                num_digitos = len(listaDigitos)
+                if (num_digitos <= 5):
+                    if (threshold_value > 0) & (t):
                         threshold_value = threshold_value - 10
-                    num_intentos = num_intentos + 1
-            else:
-                while (num_digitos <= 5):
-                    imgCleaned = self.__clean_img(imgCropped, threshold_value)
-                    contours = cv.findContours(imgCleaned, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)[1]
-                    listaDigitos = []
-                    for cnt in contours:
-                        x, y, w, h = cv.boundingRect(cnt)
-                        if ((h >= self.__h_min) & (h <= self.__h_max)) & ((w >= self.__w_min) & (w <= self.__w_max)):
-                            digito = imgCleaned[y:y + h, x:x + w]
-                            digito = self.__tratamiento_digito_1(digito)
-                            # plt.imshow(digito)
-                            # plt.show()
-                            digito = digito.flatten()
-                            listaDigitos.append((digito, x))
-                    num_digitos = len(listaDigitos)
-                    if (num_digitos <= 4):
-                        threshold_value = threshold_value - 10
+                    else:
+                        t = 0
+                        if (num_intentos <= 4):
+                            threshold_value = threshold_value + 30
+                        else:
+                            threshold_value = threshold_value + 15
+                num_intentos = num_intentos + 1
             sorted_by_second = sorted(listaDigitos, key=lambda listaDigitos: listaDigitos[1])
             if (len(sorted_by_second) > 0):
                 resultado = tuple([list(tup) for tup in zip(*sorted_by_second)])[0]

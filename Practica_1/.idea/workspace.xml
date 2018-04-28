@@ -6,18 +6,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="190920ba-c8ce-4157-8bcc-173f3547ecdc" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/CarDetector.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/LicensePlateCleaner.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/LicensePlateNumbersDetector.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/kk.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/leer_matricula_2.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/leer_matricula_3.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/testing_full_system.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Practica2_VA/testing_ocr.txt" />
       <change beforePath="$PROJECT_DIR$/../Practica2_VA/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Practica2_VA/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../Practica2_VA/leer_matricula.py" afterPath="$PROJECT_DIR$/../Practica2_VA/leer_matricula.py" />
+      <change beforePath="$PROJECT_DIR$/../Practica2_VA/LicensePlateCleaner.py" afterPath="$PROJECT_DIR$/../Practica2_VA/LicensePlateCleaner.py" />
+      <change beforePath="$PROJECT_DIR$/../Practica2_VA/leer_matricula_3.py" afterPath="$PROJECT_DIR$/../Practica2_VA/leer_matricula_3.py" />
+      <change beforePath="$PROJECT_DIR$/../Practica2_VA/testing_full_system.txt" afterPath="$PROJECT_DIR$/../Practica2_VA/testing_full_system.txt" />
+      <change beforePath="$PROJECT_DIR$/../Practica2_VA/testing_ocr.txt" afterPath="$PROJECT_DIR$/../Practica2_VA/testing_ocr.txt" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/haar/coches.xml" afterPath="$PROJECT_DIR$/../Practica2_VA/coches.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -89,10 +83,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="118" />
+    <option name="x" value="-9" />
     <option name="y" value="-9" />
-    <option name="width" value="1400" />
-    <option name="height" value="875" />
+    <option name="width" value="1938" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -316,6 +310,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11951348" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />

@@ -1,6 +1,4 @@
 import cv2 as cv
-import numpy as np
-import matplotlib.pyplot as plt
 import os
 from LicensePlateCleaner import LicensePlateCleaner
 from LicensePlateNumbersDetector import LicensePlateNumbersDetector
@@ -14,6 +12,7 @@ def imprimir_testing_ocr():
     cd = CarDetector()
     lpnd = LicensePlateNumbersDetector()
     training_numbers = os.listdir("training_ocr")
+
     lista_digitos_entrenamiento = []
     file_opened = open("testing_ocr.txt", "a")
     for t_n in training_numbers:
@@ -23,12 +22,13 @@ def imprimir_testing_ocr():
 
     # Para las imagenes en testing_ocr
     imagenes = os.listdir("testing_ocr")
+    print(imagenes)
     for i in imagenes:
         info_escritura = []
         img = cv.imread("testing_ocr/" + i, 0)
         #lista_coches = cd.detectar_coche(img)
         texto_matricula = ""
-        resultado, centros_largos = lpc.obtener_num_matriculas(coche=img, hay_intento=0)
+        resultado, centros_largos = lpc.obtener_num_matriculas(coche=img)
 
         numbers = []
         for r in resultado:
@@ -63,7 +63,7 @@ def imprimir_testing_full_system():
             # plt.imshow(c)
             # plt.show()
             texto_matricula = ""
-            resultado, centros_largos = lpc.obtener_num_matriculas(coche=c, hay_intento=1)
+            resultado, centros_largos = lpc.obtener_num_matriculas(coche=c)
 
             numbers = []
             for r in resultado:
@@ -79,5 +79,5 @@ def imprimir_testing_full_system():
              file_opened.flush()
     file_opened.close()
 imprimir_testing_full_system()
-imprimir_testing_ocr()
+#imprimir_testing_ocr()
 
