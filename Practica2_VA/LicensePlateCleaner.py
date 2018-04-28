@@ -45,7 +45,6 @@ class LicensePlateCleaner:
     def obtener_num_matriculas(self, coche):
         face_cascade_matriculas = cv.CascadeClassifier('matriculas.xml')
         resultado = []
-        i = 0
         listaDigitos = []
         coche = cv.equalizeHist(coche)
 

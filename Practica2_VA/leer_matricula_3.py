@@ -79,5 +79,5 @@ def imprimir_testing_full_system():
              file_opened.flush()
     file_opened.close()
 imprimir_testing_full_system()
-#imprimir_testing_ocr()
+imprimir_testing_ocr()
 
